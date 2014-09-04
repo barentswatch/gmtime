@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<h1>{{layer_name}}</h1>
+<div id="map" style="width: 800px; height: 700px; background-color: #dedede;"></div>
+
+<label for="times">Time: </label>
+<select id="times"></select>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAna89whnOPxJoUyAqCeVuJhyFOOAQbY1Q"></script>
+<script type="text/javascript" src="{{url_for('static', filename='js/gm_wms.js')}}"></script>
+<script type="text/javascript">
+    (function () {
+      'use strict';
+        var mapOptions = {
+            center: new google.maps.LatLng(62.0, 7.0),
+            zoom: 6
+        };
+        var map = new google.maps.Map(
+            document.getElementById('map'),
+            mapOptions
+        );
+
+        var times = {{ times | safe }};
+
+        var wmsUrl = 'http://bw-wms.met.no/barentswatch/default.map?';
+        var layer = new WmsLayer.Layer(map, wmsUrl, '{{layer_name}}');        
+        layer.updateParams({'TIME': times[0]});
+
+        var select = document.getElementById('times');
+        var i, length = times.length;    
+        for (i = 0; i < length; i++) {
+            var time = times[i];
+            var option = document.createElement('option');
+            option.appendChild(document.createTextNode(time));
+            select.appendChild(option);
+        }
+        select.addEventListener('change', function (e) {
+            var time = e.target.value;
+            layer.updateParams({'TIME': time});
+        });
+
+    }());
+</script>
+
+</body>
+</html>
