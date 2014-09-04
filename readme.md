@@ -1,7 +1,7 @@
 Gmaps - wmstime
 ===============
 
-Example on how to parse getCapabilities from a WMS server and show on a Google maps page
+Example on how to parse getCapabilities from a WMS server, extract time attribute and show on a Google maps page
 
 
 Usage
@@ -16,7 +16,7 @@ Usage
 Known issues
 ------------
 - Requests WMS as tiles.. not optimal for performance
-
+- slow and inefficient, meant as an example
 
 Code from
 ---------
